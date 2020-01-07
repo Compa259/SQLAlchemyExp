@@ -1,11 +1,12 @@
 import sqlalchemy
 from sqlalchemy.ext.declarative import declarative_base
+import sys
 
-# Create engine to connect DB using MySQL Connector/Python
-engine = sqlalchemy.create_engine(
-    'mysql+mysqlconnector://root:123456@localhost:3306/sqlalchemy',
-    echo=False
-)
+sys.path.append('../')
+import engine_factory
+
+# Get database information
+engine = engine_factory.create_engine()
 
 # Define and create table
 Base = declarative_base()
@@ -34,7 +35,7 @@ class Company(Base):
 
 
 Base.metadata.create_all(engine)
-
+#
 # Create session to query data
 Session = sqlalchemy.orm.sessionmaker()
 Session.configure(bind=engine)
